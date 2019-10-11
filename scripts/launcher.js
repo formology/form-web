@@ -4,19 +4,18 @@ const { logger } = require('jege/server');
 
 const launcherConfig = require('./launcherConfig');
 
-const log = logger('[monorepo-nadan-web]');
+const log = logger('[monorepo-form-web]');
 
 const processDefinitions = {
-  nadanWeb: proc(
+  formWeb: proc(
     'node',
     [
       './scripts/launch.js',
     ],
     {
-      cwd: './packages/nadan-web',
+      cwd: './packages/form-web',
       env: {
-        NADAN_WEB_CORE_ENDPOINT: launcherConfig.NADAN_WEB_CORE_ENDPOINT,
-        NADAN_WEB_PORT: launcherConfig.NADAN_WEB_PORT,
+        FORM_WEB_PORT: launcherConfig.FORM_WEB_PORT,
       },
       stdio: 'inherit',
     },
@@ -25,14 +24,14 @@ const processDefinitions = {
 
 const processGroupDefinitions = {
   default: [
-    'nadanWeb',
+    'formWeb',
   ],
 };
 
 function launcher() {
   try {
     log(
-      'launcher(): argv: %j, Processes defined: %j, ProcessGroups: %j',
+      'launcher(): argv: %j, Processes defined: %j, ProcessGroupDefinitions: %j',
       argv,
       Object.keys(processDefinitions),
       processGroupDefinitions,
