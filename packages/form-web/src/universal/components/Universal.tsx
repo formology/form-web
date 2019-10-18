@@ -1,8 +1,13 @@
+import {
+  Switch,
+  Route,
+} from 'react-router-dom';
 import { compose } from 'redux';
 import { css, Global } from '@emotion/core';
 import { hot } from 'react-hot-loader/root';
 import React from 'react';
 
+import DocPage from '@@src/universal/components/pages/DocPage/DocPage';
 import ErrorBoundary from '@@src/universal/components/app/ErrorBoundary';
 import HomePage from '@@src/universal/components/pages/HomePage/HomePage';
 
@@ -40,7 +45,13 @@ const Universal: React.FC<any> = () => {
       <Global
         styles={globalStyle}
       />
-      <HomePage />
+      <Switch>
+        <Route
+          component={DocPage}
+          path="/:namespace/:docName"
+        />
+        <Route component={HomePage} />
+      </Switch>
     </ErrorBoundary>
   );
 };

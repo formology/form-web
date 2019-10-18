@@ -1,6 +1,7 @@
+import { BrowserRouter } from 'react-router-dom';
 import { createXongkoro, XongkoroProvider } from 'xongkoro';
 import { Provider as ReduxProvider } from 'react-redux';
-import { QuerriedBrowserRouter } from 'querry';
+// import { QuerriedBrowserRouter } from 'querry';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -17,15 +18,17 @@ const xongkoro = createXongkoro({
 
 const ClientApp: React.FC<any> = () => {
   return (
-    <QuerriedBrowserRouter
-      basename="/frameworks/react"
-    >
+    // <QuerriedBrowserRouter
+    //   basename="/frameworks/react"
+    // >
+    <BrowserRouter>
       <ReduxProvider store={store}>
         <XongkoroProvider xongkoro={xongkoro}>
           <Universal />
         </XongkoroProvider>
       </ReduxProvider>
-    </QuerriedBrowserRouter>
+    </BrowserRouter>
+    // </QuerriedBrowserRouter>
   );
 };
 
