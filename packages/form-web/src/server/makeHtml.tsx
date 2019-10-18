@@ -1,4 +1,3 @@
-/* eslint-disable */
 import {
   createAssetElements,
   createStringifiableObjectElement,
@@ -44,10 +43,14 @@ const makeHtml: MakeHtml<IsomorphicState> = ({
       xongkoro={xongkoro}
     />
   );
+  const reactAppInString = renderToString(serverApp);
+
   const html = template({
     processEnvElement,
-    reactAppInString: renderToString(serverApp),
+    reactAppInString,
     reactAssetElements,
+    socketPath,
+    socketPort,
   });
   return html;
 };
@@ -56,16 +59,27 @@ function template({
   processEnvElement,
   reactAppInString,
   reactAssetElements,
+  socketPath,
+  socketPort,
 }) {
   return `
 <html>
   <head>
     ${processEnvElement}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>
   </head>
-  <div id="react-root">
-    ${reactAppInString}
-  </div>
+  <div id="react-root">${reactAppInString}</div>
   ${reactAssetElements}
+  <script>
+    if (window.io) {
+      var socket = io('http://localhost:${socketPort}', {
+        path: '${socketPath}'
+      });
+      socket.on('express-isomorphic', function ({ msg }) {
+        console.warn('[express-isomorphic] %s', msg);
+      });
+    }
+  </script>
 </html>
 `;
 }

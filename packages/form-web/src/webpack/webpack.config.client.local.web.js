@@ -11,7 +11,7 @@ const config = {
     client: [
       'react-hot-loader/patch',
       'webpack-hot-middleware/client',
-      path.resolve(paths.src, 'react/ClientApp.tsx'),
+      path.resolve(paths.src, 'client/ClientApp.tsx'),
     ],
   },
   mode: 'development',
