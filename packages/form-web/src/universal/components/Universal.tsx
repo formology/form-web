@@ -6,7 +6,6 @@ import { compose } from 'redux';
 import { css, Global } from '@emotion/core';
 import { hot } from 'react-hot-loader/root';
 import React from 'react';
-
 import DocPage from '@@src/universal/components/pages/DocPage/DocPage';
 import ErrorBoundary from '@@src/universal/components/app/ErrorBoundary';
 import HomePage from '@@src/universal/components/pages/HomePage/HomePage';
@@ -35,7 +34,7 @@ import HomePage from '@@src/universal/components/pages/HomePage/HomePage';
 
 const globalStyle = css({
   '*': {
-    color: 'green',
+    color: 'black',
   },
 });
 
