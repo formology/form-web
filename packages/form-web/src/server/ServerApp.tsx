@@ -1,13 +1,13 @@
-import {
-  Xongkoro,
-  XongkoroProvider,
-} from 'xongkoro';
 import React from 'react';
 import {
   Provider as ReduxProvider,
 } from 'react-redux';
-import { QuerriedStaticRouter } from 'querry';
+import { StaticRouter } from 'react-router';
 import { Store } from 'redux';
+import {
+  Xongkoro,
+  XongkoroProvider,
+} from 'xongkoro';
 
 import { ReduxState } from '@@src/universal/state';
 import Universal from '@@src/universal/components/Universal';
@@ -19,8 +19,7 @@ const ServerApp: React.FC<ServerAppProps> = ({
   xongkoro,
 }) => {
   return (
-    <QuerriedStaticRouter
-      basename="/frameworks/react"
+    <StaticRouter
       context={routerContext}
       location={requestUrl}
     >
@@ -29,7 +28,7 @@ const ServerApp: React.FC<ServerAppProps> = ({
           <Universal />
         </XongkoroProvider>
       </ReduxProvider>
-    </QuerriedStaticRouter>
+    </StaticRouter>
   );
 };
 

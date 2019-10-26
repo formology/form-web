@@ -9,6 +9,7 @@ import React from 'react';
 import DocPage from '@@src/universal/components/pages/DocPage/DocPage';
 import ErrorBoundary from '@@src/universal/components/app/ErrorBoundary';
 import HomePage from '@@src/universal/components/pages/HomePage/HomePage';
+import normalize from '@@src/universal/styles/normalize';
 
 // const StyledUniversal = styled.div({
 //   '& table': {
@@ -32,17 +33,28 @@ import HomePage from '@@src/universal/components/pages/HomePage/HomePage';
 //   },
 // });
 
-const globalStyle = css({
+const normalizeStyle = css`
+  ${normalize}
+`;
+
+const customStyle = css({
   '*': {
     color: 'black',
   },
+  body: {
+    border: '1px solid black',
+  },
+  fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif;',
 });
 
 const Universal: React.FC<any> = () => {
   return (
     <ErrorBoundary>
       <Global
-        styles={globalStyle}
+        styles={normalizeStyle}
+      />
+      <Global
+        styles={customStyle}
       />
       <Switch>
         <Route
