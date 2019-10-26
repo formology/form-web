@@ -6,32 +6,12 @@ import { compose } from 'redux';
 import { css, Global } from '@emotion/core';
 import { hot } from 'react-hot-loader/root';
 import React from 'react';
+import styled from '@emotion/styled';
+
 import DocPage from '@@src/universal/components/pages/DocPage/DocPage';
-import ErrorBoundary from '@@src/universal/components/app/ErrorBoundary';
+import ErrorBoundary from '@@src/universal/components/app/Error/ErrorBoundary';
 import HomePage from '@@src/universal/components/pages/HomePage/HomePage';
 import normalize from '@@src/universal/styles/normalize';
-
-// const StyledUniversal = styled.div({
-//   '& table': {
-//     borderCollapse: 'collapse',
-//   },
-//   display: 'flex',
-//   flexDirection: 'column',
-//   fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif;',
-//   minHeight: '100%',
-//   padding: '25 33',
-// });
-
-// const GlobalStyle = createGlobalStyle({
-//   '#react-root': {
-//     height: '100%',
-//     left: 0,
-//     overflowY: 'scroll',
-//     position: 'absolute',
-//     right: 0,
-//     top: 0,
-//   },
-// });
 
 const normalizeStyle = css`
   ${normalize}
@@ -44,26 +24,35 @@ const customStyle = css({
   body: {
     border: '1px solid black',
   },
+  input: {
+    border: 'none',
+    outline: 'none',
+  },
+});
+
+const StyledUniversal = styled.div({
   fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif;',
 });
 
 const Universal: React.FC<any> = () => {
   return (
-    <ErrorBoundary>
-      <Global
-        styles={normalizeStyle}
-      />
-      <Global
-        styles={customStyle}
-      />
-      <Switch>
-        <Route
-          component={DocPage}
-          path="/:namespace/:docName"
+    <StyledUniversal>
+      <ErrorBoundary>
+        <Global
+          styles={normalizeStyle}
         />
-        <Route component={HomePage} />
-      </Switch>
-    </ErrorBoundary>
+        <Global
+          styles={customStyle}
+        />
+        <Switch>
+          <Route
+            component={DocPage}
+            path="/:namespace/:docName"
+          />
+          <Route component={HomePage} />
+        </Switch>
+      </ErrorBoundary>
+    </StyledUniversal>
   );
 };
 

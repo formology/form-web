@@ -66,6 +66,7 @@ function template({
 <html>
   <head>
     ${processEnvElement}
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>
   </head>
   <div id="react-root">${reactAppInString}</div>
