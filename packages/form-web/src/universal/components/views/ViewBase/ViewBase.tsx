@@ -44,7 +44,7 @@ const ViewBase: React.FC<any> = ({
       <Top>
         <Account>
           <p>Help</p>
-          <p>Sign In</p>
+          <p>Matthew</p>
         </Account>
       </Top>
       <Bottom>

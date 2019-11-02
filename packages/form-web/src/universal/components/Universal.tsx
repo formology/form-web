@@ -67,6 +67,6 @@ export default compose(
 
 declare global {
   interface Window {
-    Nadan;
+    SimpleMDE;
   }
 }

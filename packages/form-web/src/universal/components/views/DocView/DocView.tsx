@@ -1,13 +1,9 @@
-import commonmark from 'commonmark';
 import React from 'react';
 import styled from '@emotion/styled';
 
-import Page from './Page';
-import PageTree from './PageTree';
+import Editor from './Editor';
 import ViewBase from '@@universal/components/views/ViewBase/ViewBase';
-
-const reader = new commonmark.Parser();
-const writer = new commonmark.HtmlRenderer();
+import Viewer from './Viewer';
 
 const dummyPage = `
 # Blockchain
@@ -24,54 +20,70 @@ const StyledDocView = styled(ViewBase)({
 const Inner = styled.div({
   border: '1px solid blue',
   display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  padding: '30px 0 100px',
 });
 
-const StyledDocTree = styled.div({
-  border: '1px solid green',
-  flexShrink: 0,
-  width: 160,
+const Button = styled.button`
+  float: right;
+  font-size: 1rem;
+  border-radius: 5px;
+  padding: 0.25rem 1rem;
+  margin: 1 1rem;
+  background: white;
+  border: 2px solid;
+  cursor: pointer;
+  &:hover {
+    transform: translateY(1px);
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.15);
+  }
+`;
+const ButtonGroup = styled.div({
+  height: 100,
 });
 
-const DocTree = () => {
+const StyledContentArea = styled.div({
+  display: 'flex',
+  justifyContent: 'center',
+});
+
+const ContentArea = ({
+  content,
+  isViewer,
+}) => {
   return (
-    <StyledDocTree>doc tree</StyledDocTree>
+    <StyledContentArea>
+      {isViewer
+        ? (
+          <Viewer content={content} />
+        )
+        : (
+          <Editor content={content} />
+        )}
+    </StyledContentArea>
   );
 };
 
 const DocView = () => {
-  const { headings, rendered } = React.useMemo(() => {
-    const parsed = reader.parse(dummyPage);
-    const walker = parsed.walker();
-    const _headings: any[] = [];
-
-    let event = walker.next();
-    let node;
-
-    while (event) {
-      node = event.node; // eslint-disable-line
-      if (node.type === 'text' && node.parent.type === 'heading') {
-        _headings.push(node.literal);
-      }
-      event = walker.next();
-    }
-    return {
-      headings: _headings,
-      rendered: {
-        __html: writer.render(parsed),
-      },
-    };
-  }, []);
-
+  const [isViewer, setIsViewer] = React.useState(true);
+  const handleClickEdit = React.useCallback(() => {
+    setIsViewer(!isViewer);
+  }, [isViewer]);
 
   return (
     <StyledDocView>
       <Inner>
-        <DocTree />
-        <PageTree
-          headings={headings}
-        />
-        <Page
-          rendered={rendered}
+        <ButtonGroup>
+          <Button
+            onClick={handleClickEdit}
+          >
+            Edit
+          </Button>
+        </ButtonGroup>
+        <ContentArea
+          content={dummyPage}
+          isViewer={isViewer}
         />
       </Inner>
     </StyledDocView>
