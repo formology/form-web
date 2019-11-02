@@ -16,6 +16,9 @@
       "@@src/*": [
         "./src/*"
       ],
+      "@@universal/*": [
+        "./src/universal/*"
+      ],
     },
     "strictNullChecks": true,
     "target": "es6"

@@ -3,6 +3,7 @@ import {
   createStringifiableObjectElement,
 } from 'express-isomorphic/utils';
 import { createXongkoro } from 'xongkoro';
+import { dom } from '@fortawesome/fontawesome-svg-core';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 
@@ -46,6 +47,7 @@ const makeHtml: MakeHtml<IsomorphicState> = ({
   const reactAppInString = renderToString(serverApp);
 
   const html = template({
+    fontAwesomeCss: dom.css(),
     processEnvElement,
     reactAppInString,
     reactAssetElements,
@@ -56,6 +58,7 @@ const makeHtml: MakeHtml<IsomorphicState> = ({
 };
 
 function template({
+  fontAwesomeCss,
   processEnvElement,
   reactAppInString,
   reactAssetElements,
@@ -68,6 +71,7 @@ function template({
     ${processEnvElement}
     <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>
+    <style>${fontAwesomeCss}</style>
   </head>
   <div id="react-root">${reactAppInString}</div>
   ${reactAssetElements}

@@ -1,6 +1,7 @@
 import {
   Switch,
   Route,
+  // useParams,
 } from 'react-router-dom';
 import { compose } from 'redux';
 import { css, Global } from '@emotion/core';
@@ -33,6 +34,10 @@ const customStyle = css({
 const StyledUniversal = styled.div({
   fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif;',
 });
+
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+// import { faCoffee } from '@fortawesome/free-solid-svg-icons'
+// <FontAwesomeIcon icon={faCoffee} />
 
 const Universal: React.FC<any> = () => {
   return (
