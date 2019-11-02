@@ -11,10 +11,23 @@ const StyledHomeView = styled(ViewBase)({
   height: '100%',
   width: '100%',
 });
+const Image = styled.img`
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  object-fit:contain;
+  &:hover {
+    transform: translateY(3px);
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.15);
+  }
+`;
 
 const dummyDocs = [
   {
     content: 'doc1',
+    imageUrl: 'https://image.shutterstock.com/z/stock-vector-blockchain-colored-vertical-poster-or-illustration-in-outline-style-vector-block-chain-symbol-on-1067627900.jpg',
     title: 'doc1',
   },
   {
@@ -25,13 +38,17 @@ const dummyDocs = [
     content: 'doc3',
     title: 'doc3',
   },
+  {
+    content: 'doc4',
+    title: 'doc4',
+  },
 ];
 
 const StyledTrendingDocCarousel = styled.div({
   '&>div': {
     border: '1px solid green',
     height: 400,
-    width: 300,
+    width: '25%',
   },
   border: '1px solid black',
   display: 'flex',
@@ -45,7 +62,10 @@ const TrendingDocCarousel = ({
     return docs.map((doc) => {
       return (
         <div key={doc.content}>
-          <Link to={`doc/${doc.title}`}>{doc.content}</Link>
+          <Link to={`doc/${doc.title}`}>
+            {doc.content}
+            <Image src={doc.imageUrl} />
+          </Link>
         </div>
       );
     });
