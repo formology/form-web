@@ -22,6 +22,9 @@ const customStyle = css({
   '*': {
     color: 'black',
   },
+  a: {
+    textDecoration: 'none',
+  },
   body: {
     border: '1px solid black',
   },
@@ -34,10 +37,6 @@ const customStyle = css({
 const StyledUniversal = styled.div({
   fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif;',
 });
-
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import { faCoffee } from '@fortawesome/free-solid-svg-icons'
-// <FontAwesomeIcon icon={faCoffee} />
 
 const Universal: React.FC<any> = () => {
   return (

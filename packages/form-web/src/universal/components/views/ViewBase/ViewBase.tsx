@@ -1,5 +1,11 @@
+import {
+  Link,
+} from 'react-router-dom';
 import React from 'react';
 import styled from '@emotion/styled';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faProjectDiagram } from '@fortawesome/free-solid-svg-icons';
 
 const StyledViewBase = styled.div({
   minHeight: '100%',
@@ -7,7 +13,7 @@ const StyledViewBase = styled.div({
 
 const StyledTop = styled.div({
   display: 'flex',
-  padding: '0 20',
+  padding: '0 30',
 });
 
 const Top = ({
@@ -19,6 +25,15 @@ const Top = ({
     </StyledTop>
   );
 };
+
+const Logo = styled.div({
+  '& svg': {
+    marginRight: 12,
+  },
+  alignItems: 'center',
+  display: 'flex',
+  fontSize: 24,
+});
 
 const Account = styled.div({
   '& p': {
@@ -42,6 +57,12 @@ const ViewBase: React.FC<any> = ({
   return (
     <StyledViewBase className={className}>
       <Top>
+        <Logo>
+          <Link to="/">
+            <FontAwesomeIcon icon={faProjectDiagram} />
+            FORM
+          </Link>
+        </Logo>
         <Account>
           <p>Help</p>
           <p>Matthew</p>
