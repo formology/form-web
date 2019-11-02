@@ -10,9 +10,6 @@ const StyledPage = styled.div({
 const Page = ({
   rendered,
 }) => {
-  // const html = React.useMemo(() => {
-  // })
-
   return (
     <StyledPage>
       <div dangerouslySetInnerHTML={rendered} />
