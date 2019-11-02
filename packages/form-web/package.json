@@ -14,6 +14,7 @@
     "aktion": "^0.2.1",
     "axios": "^0.19.0",
     "chalk": "^2.4.2",
+    "commonmark": "^0.29.0",
     "express": "^4.17.1",
     "express-isomorphic": "^0.32.0",
     "express-isomorphic-extension": "^0.32.0",

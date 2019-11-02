@@ -64,6 +64,7 @@ module.exports = {
     'react/jsx-sort-props': ['error', {
       reservedFirst: false,
     }],
+    'react/no-danger': ['off'],
     'react/prop-types': ['off'],
     'sort-destructure-keys/sort-destructure-keys': 2,
     'sort-keys': ['error'],

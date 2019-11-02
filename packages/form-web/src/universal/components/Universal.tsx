@@ -9,9 +9,9 @@ import { hot } from 'react-hot-loader/root';
 import React from 'react';
 import styled from '@emotion/styled';
 
-import DocPage from '@@src/universal/components/pages/DocPage/DocPage';
+import DocView from '@@src/universal/components/views/DocView/DocView';
 import ErrorBoundary from '@@src/universal/components/app/Error/ErrorBoundary';
-import HomePage from '@@src/universal/components/pages/HomePage/HomePage';
+import HomeView from '@@src/universal/components/views/HomeView/HomeView';
 import normalize from '@@src/universal/styles/normalize';
 
 const normalizeStyle = css`
@@ -51,10 +51,10 @@ const Universal: React.FC<any> = () => {
         />
         <Switch>
           <Route
-            component={DocPage}
+            component={DocView}
             path="/:namespace/:docName"
           />
-          <Route component={HomePage} />
+          <Route component={HomeView} />
         </Switch>
       </ErrorBoundary>
     </StyledUniversal>
