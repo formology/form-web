@@ -50,7 +50,6 @@ const Account = styled.div({
 });
 
 const Bottom = styled.div({
-  minHeight: 'calc(100% - 60px)',
 });
 
 const ViewBase: React.FC<any> = ({
@@ -68,7 +67,7 @@ const ViewBase: React.FC<any> = ({
         </Logo>
         <Account>
           <p>
-            <Link to="/postDoc">
+            <Link to="/docs/post">
               Post
             </Link>
           </p>

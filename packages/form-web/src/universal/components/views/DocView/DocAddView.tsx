@@ -1,8 +1,10 @@
 import axios from 'axios';
 import React from 'react';
 import styled from '@emotion/styled';
+import { useHistory } from 'react-router-dom';
 
 import Button from '@@universal/components/app/Buttons/Button';
+import ButtonGroup from './ButtonGroup';
 import DocInner from './DocInner';
 import Editor from './Editor';
 import { log } from '@@universal/modules/Logger';
@@ -16,7 +18,7 @@ const ContentArea = styled.div({
     borderRadius: 3,
     marginBottom: 18,
     padding: 12,
-    width: 800,
+    width: '100%',
   },
   alignItems: 'center',
   display: 'flex',
@@ -25,6 +27,7 @@ const ContentArea = styled.div({
 });
 
 const DocAddView = () => {
+  const history = useHistory();
   const editorRef = React.useRef<any>(null);
   const nameRef = React.useRef<any>(null);
   const registerEditor = React.useCallback((instance) => {
@@ -37,7 +40,7 @@ const DocAddView = () => {
       const name = nameRef.current.value;
       const value = (editorRef.current! as any).value();
 
-      axios.post('http://localhost:5001/doc/new', {
+      axios.post('http://localhost:5001/docs/post', {
         content: value,
         name,
         namespace: USERNAME,
@@ -48,11 +51,13 @@ const DocAddView = () => {
             setToast('Docuemnt creeation error');
           }
           setToast('Document is successfully created');
+          setTimeout(() => {
+            setToast('');
+            history.push(`/docs/blob/${USERNAME}/${name}`);
+          }, 3000);
         })
         .catch(() => {
           setToast('Docuemnt creeation error');
-        })
-        .finally(() => {
           setTimeout(() => {
             setToast('');
           }, 3000);
@@ -64,14 +69,14 @@ const DocAddView = () => {
     <ViewBase>
       <Toast label={toast} />
       <DocInner>
-        <div>
+        <ButtonGroup alignRight>
           <Button
             onClick={handleClickPost}
             type="button"
           >
             Post
           </Button>
-        </div>
+        </ButtonGroup>
         <ContentArea>
           <input
             placeholder="Document Name"

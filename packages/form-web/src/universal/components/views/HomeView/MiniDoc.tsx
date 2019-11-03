@@ -44,7 +44,7 @@ const MiniDoc = ({
         <p>{address}</p>
       </Upper>
       <Bottom>
-        <Link to={`/doc/${address}`}>
+        <Link to={`/docs/blob/${address}`}>
           <MarkdownView dangerouslySetInnerHTML={html} />
         </Link>
       </Bottom>

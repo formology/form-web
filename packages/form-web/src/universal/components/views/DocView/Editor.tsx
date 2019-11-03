@@ -2,7 +2,6 @@ import React from 'react';
 import styled from '@emotion/styled';
 
 const StyledEditor = styled.div({
-  height: 700,
   width: 800,
 });
 

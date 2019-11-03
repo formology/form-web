@@ -1,12 +1,12 @@
 import axios from 'axios';
 import React from 'react';
 import styled from '@emotion/styled';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { XongkoroFetch } from 'xongkoro';
 
 import Button from '@@universal/components/app/Buttons/Button';
+import ButtonGroup from './ButtonGroup';
 import DocInner from './DocInner';
-import Editor from './Editor';
 import { log } from '@@universal/modules/Logger';
 import ViewBase from '@@universal/components/views/ViewBase/ViewBase';
 import Viewer from './Viewer';
@@ -19,38 +19,18 @@ const StyledContentArea = styled.div({
   justifyContent: 'center',
 });
 
-const ContentArea = ({
-  content,
-  isViewer,
-}) => {
-  return (
-    <StyledContentArea>
-      {isViewer
-        ? (
-          <Viewer content={content} />
-        )
-        : (
-          <Editor content={content} />
-        )}
-    </StyledContentArea>
-  );
-};
-
 const ContentAreaRendered = ({
   data,
-  extraProps,
   loading,
 }) => {
   if (!loading) {
     log('ContentAreaRendered(): data: %o', data);
     const { payload = {} } = data;
-    const { isViewer } = extraProps;
 
     return (
-      <ContentArea
-        content={payload.content || ''}
-        isViewer={isViewer}
-      />
+      <StyledContentArea>
+        <Viewer content={payload.content} />
+      </StyledContentArea>
     );
   }
 
@@ -60,15 +40,15 @@ const ContentAreaRendered = ({
 };
 
 const DocView = () => {
+  const history = useHistory();
   const params = useParams();
-  const [isViewer, setIsViewer] = React.useState(true);
-  const handleClickEdit = React.useCallback(() => {
-    setIsViewer(!isViewer);
-  }, [isViewer]);
   const { name, namespace } = params;
+  const handleClickEdit = React.useCallback(() => {
+    history.push(`/docs/edit/${namespace}/${name}`);
+  }, [params]);
 
   const fetchOptions = {
-    cacheKey: `http://localhost:5001/doc/${params.namespace}/${params.name}`,
+    cacheKey: `http://localhost:5001/docs/blob/${params.namespace}/${params.name}`,
     fetchParam: {
       name,
       namespace,
@@ -78,17 +58,14 @@ const DocView = () => {
   return (
     <StyledDocView>
       <DocInner>
-        <div>
+        <ButtonGroup alignRight>
           <Button
             onClick={handleClickEdit}
           >
             Edit
           </Button>
-        </div>
+        </ButtonGroup>
         <XongkoroFetch
-          extraProps={{
-            isViewer,
-          }}
           fetchFunction={fetchFunction}
           fetchOptions={fetchOptions}
           renderData={ContentAreaRendered}
@@ -107,7 +84,7 @@ function fetchFunction({
   return async () => {
     log('fetchFunction(): executing with name: %s, namesapce: %s', name, namespace);
 
-    const { data } = await axios.post(`http://localhost:5001/doc/${namespace}/${name}`);
+    const { data } = await axios.post(`http://localhost:5001/docs/blob/${namespace}/${name}`);
     return data;
   };
 }

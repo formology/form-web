@@ -1,6 +1,10 @@
 import styled from '@emotion/styled';
 
 const DocInner = styled.div({
+  '&>div': {
+    width: 800,
+  },
+  alignItems: 'center',
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',

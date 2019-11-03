@@ -12,19 +12,6 @@ const StyledHomeView = styled(ViewBase)({
   width: '100%',
 });
 
-// const Image = styled.img`
-//   height: auto;
-//   max-width: 100%;
-//   max-height: 100%;
-//   overflow-x: hidden;
-//   overflow-y: hidden;
-//   object-fit:contain;
-//   &:hover {
-//     transform: translateY(3px);
-//     box-shadow: 0 3px 5px rgba(0, 0, 0, 0.15);
-//   }
-// `;
-
 const StyledTrendingDocCarousel = styled.div({
   '&>div': {
     height: 400,
@@ -32,7 +19,7 @@ const StyledTrendingDocCarousel = styled.div({
   display: 'flex',
   margin: '6% 40px 0',
   overflowX: 'scroll',
-  voerflowY: 'hidden',
+  overflowY: 'hidden',
 });
 
 const TrendingDocCarouselRendered = ({
@@ -75,7 +62,7 @@ const StyledBottom = styled.div({
 
 const HomeView = () => {
   const fetchOptions = {
-    cacheKey: 'http://localhost:5001/doc',
+    cacheKey: 'http://localhost:5001/docs',
     fetchParam: {
       power: 1,
     },
@@ -101,7 +88,7 @@ function fetchFunction(param) {
   return async () => {
     log('fetchFunction(): executing with fetchParam: %j', param);
 
-    const { data } = await axios.post('http://localhost:5001/doc');
+    const { data } = await axios.post('http://localhost:5001/docs');
     return data;
   };
 }

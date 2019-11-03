@@ -9,6 +9,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 
 import DocAddView from '@@src/universal/components/views/DocView/DocAddView';
+import DocEditView from '@@src/universal/components/views/DocView/DocEditView';
 import DocView from '@@src/universal/components/views/DocView/DocView';
 import ErrorBoundary from '@@src/universal/components/app/Error/ErrorBoundary';
 import HomeView from '@@src/universal/components/views/HomeView/HomeView';
@@ -54,11 +55,15 @@ const Universal: React.FC<any> = () => {
         <Switch>
           <Route
             component={DocAddView}
-            path="/postDoc"
+            path="/docs/post"
+          />
+          <Route
+            component={DocEditView}
+            path="/docs/edit/:namespace/:name"
           />
           <Route
             component={DocView}
-            path="/doc/:namespace/:name"
+            path="/docs/blob/:namespace/:name"
           />
           <Route component={HomeView} />
         </Switch>
