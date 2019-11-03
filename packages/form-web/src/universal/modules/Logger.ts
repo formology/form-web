@@ -1,6 +1,6 @@
 import { logger } from 'jege';
 
-const log = logger('[sandbox-web]');
+const log = logger('[form-web]');
 
 export {
   log,

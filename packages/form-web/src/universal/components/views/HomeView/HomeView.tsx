@@ -1,9 +1,10 @@
-import {
-  Link,
-} from 'react-router-dom';
+import axios from 'axios';
 import React from 'react';
 import styled from '@emotion/styled';
+import { XongkoroFetch } from 'xongkoro';
 
+import { log } from '@@universal/modules/Logger';
+import MiniDoc from './MiniDoc';
 import Search from '@@src/universal/components/views/HomeView/Search';
 import ViewBase from '@@universal/components/views/ViewBase/ViewBase';
 
@@ -11,85 +12,91 @@ const StyledHomeView = styled(ViewBase)({
   height: '100%',
   width: '100%',
 });
-const Image = styled.img`
-  height: auto;
-  max-width: 100%;
-  max-height: 100%;
-  overflow-x: hidden;
-  overflow-y: hidden;
-  object-fit:contain;
-  &:hover {
-    transform: translateY(3px);
-    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.15);
-  }
-`;
 
-const dummyDocs = [
-  {
-    content: 'doc1',
-    imageUrl: 'https://image.shutterstock.com/z/stock-vector-blockchain-colored-vertical-poster-or-illustration-in-outline-style-vector-block-chain-symbol-on-1067627900.jpg',
-    title: 'doc1',
-  },
-  {
-    content: 'doc2',
-    title: 'doc2',
-  },
-  {
-    content: 'doc3',
-    title: 'doc3',
-  },
-  {
-    content: 'doc4',
-    title: 'doc4',
-  },
-];
+// const Image = styled.img`
+//   height: auto;
+//   max-width: 100%;
+//   max-height: 100%;
+//   overflow-x: hidden;
+//   overflow-y: hidden;
+//   object-fit:contain;
+//   &:hover {
+//     transform: translateY(3px);
+//     box-shadow: 0 3px 5px rgba(0, 0, 0, 0.15);
+//   }
+// `;
 
 const StyledTrendingDocCarousel = styled.div({
   '&>div': {
-    border: '1px solid green',
     height: 400,
     width: '25%',
   },
-  border: '1px solid black',
   display: 'flex',
-  marginTop: '6%',
+  margin: '6% 40px 20px',
+  overflowX: 'scroll',
+  overflowY: 'hidden',
 });
 
-const TrendingDocCarousel = ({
-  docs,
+const TrendingDocCarouselRendered = ({
+  data,
+  loading,
 }) => {
-  const entries = React.useMemo(() => {
-    return docs.map((doc) => {
-      return (
-        <div key={doc.content}>
-          <Link to={`doc/${doc.title}`}>
-            {doc.content}
-            <Image src={doc.imageUrl} />
-          </Link>
-        </div>
-      );
-    });
-  }, [docs]);
+  if (!loading) {
+    log('TrendingDocCarouselRendered(): data: %o', data);
+    const { payload } = data;
+    const { documents = [] } = payload;
+    const entries = React.useMemo(() => {
+      return documents.map && documents.map((doc) => {
+        const address = `${doc.namespace}/${doc.name}`;
+        return (
+          <MiniDoc
+            address={address}
+            doc={doc}
+            key={address}
+          />
+        );
+      });
+    }, [documents]);
+
+    return (
+      <StyledTrendingDocCarousel>
+        {entries}
+      </StyledTrendingDocCarousel>
+    );
+  }
 
   return (
-    <StyledTrendingDocCarousel>
-      {entries}
-    </StyledTrendingDocCarousel>
+    <div>loading...</div>
   );
 };
 
 const HomeView = () => {
-  // const { data } = useSelector();
-  // const fetchOptions = {
-  //   cacheKey: 'fetchOrders',
-  //   fetchParam: {},
-  // };
+  const fetchOptions = {
+    cacheKey: 'http://localhost:5001/documents',
+    fetchParam: {
+      power: 1,
+    },
+  };
+
   return (
     <StyledHomeView>
-      <TrendingDocCarousel docs={dummyDocs} />
+      <XongkoroFetch
+        fetchFunction={fetchFunction}
+        fetchOptions={fetchOptions}
+        renderData={TrendingDocCarouselRendered}
+      />
       <Search />
     </StyledHomeView>
   );
 };
 
 export default HomeView;
+
+function fetchFunction(param) {
+  return async () => {
+    log('fetchFunction(): executing with fetchParam: %j', param);
+
+    const { data } = await axios.post('http://localhost:5001/documents');
+    return data;
+  };
+}

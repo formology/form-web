@@ -12,7 +12,9 @@ const StyledViewBase = styled.div({
 });
 
 const StyledTop = styled.div({
+  alignItems: 'center',
   display: 'flex',
+  height: 58,
   padding: '0 30',
 });
 

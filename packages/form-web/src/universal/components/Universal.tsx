@@ -1,7 +1,6 @@
 import {
   Switch,
   Route,
-  // useParams,
 } from 'react-router-dom';
 import { compose } from 'redux';
 import { css, Global } from '@emotion/core';
@@ -20,17 +19,20 @@ const normalizeStyle = css`
 
 const customStyle = css({
   '*': {
+    boxSizing: 'border-box',
     color: 'black',
   },
   a: {
     textDecoration: 'none',
   },
   body: {
-    border: '1px solid black',
   },
   input: {
     border: 'none',
     outline: 'none',
+  },
+  p: {
+    margin: 0,
   },
 });
 

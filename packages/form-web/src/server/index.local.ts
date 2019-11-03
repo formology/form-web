@@ -19,7 +19,7 @@ import IsomorphicState from './IsomorphicState';
 import webpackConfig from '../webpack/webpack.config.client.local.web';
 import webpackConfigServer from '../webpack/webpack.config.server.local';
 
-const log = logger('[sandbox-web]');
+const log = logger('[form-web]');
 
 const paths = {
   assets: path.resolve(__dirname, '../../dist/assets'),

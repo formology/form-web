@@ -6,6 +6,7 @@ import { createXongkoro } from 'xongkoro';
 import { dom } from '@fortawesome/fontawesome-svg-core';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
+import { renderToStringProxy } from 'xongkoro/server';
 
 import { logger } from 'jege/server';
 import { MakeHtml } from 'express-isomorphic';
@@ -16,7 +17,7 @@ import ServerApp from '@@src/server/ServerApp';
 
 const log = logger('[form-web]');
 
-const makeHtml: MakeHtml<IsomorphicState> = ({
+const makeHtml: MakeHtml<IsomorphicState> = async ({
   requestUrl,
   serverState,
 }) => {
@@ -36,7 +37,7 @@ const makeHtml: MakeHtml<IsomorphicState> = ({
   const reactAssetElements = createAssetElements(assets, publicPath);
   const processEnvElement = createStringifiableObjectElement('__FORM_ENV__', getProcessEnv('FORM'));
 
-  const serverApp = (
+  const element = (
     <ServerApp
       reduxStore={reduxStore}
       requestUrl={requestUrl}
@@ -44,7 +45,11 @@ const makeHtml: MakeHtml<IsomorphicState> = ({
       xongkoro={xongkoro}
     />
   );
-  const reactAppInString = renderToString(serverApp);
+  const reactAppInString = await renderToStringProxy({
+    element,
+    renderFunction: renderToString,
+  });
+  const xongkoroState = xongkoro.getState();
 
   const html = template({
     fontAwesomeCss: dom.css(),
@@ -53,6 +58,7 @@ const makeHtml: MakeHtml<IsomorphicState> = ({
     reactAssetElements,
     socketPath,
     socketPort,
+    xongkoroState,
   });
   return html;
 };
@@ -64,16 +70,19 @@ function template({
   reactAssetElements,
   socketPath,
   socketPort,
+  xongkoroState,
 }) {
   return `
 <html>
   <head>
-    ${processEnvElement}
+    <meta charset="UTF-8">
     <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
-    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
     <style>${fontAwesomeCss}</style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>
+    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+    <script>window['__XONGKORO_STATE__']=${JSON.stringify(xongkoroState).replace(/</g, '\\u003c')}</script>
+    ${processEnvElement}
   </head>
   <div id="react-root">${reactAppInString}</div>
   ${reactAssetElements}
