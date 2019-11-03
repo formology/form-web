@@ -14,23 +14,64 @@ import Viewer from './Viewer';
 const StyledDocView = styled(ViewBase)({
 });
 
-const StyledContentArea = styled.div({
+const StyledEditHistory = styled.div({
+  '&>div': {
+    marginBottom: 7,
+  },
+  backgroundColor: '#efefef',
+  borderRadius: 3,
+  fontSize: '0.9em',
+  marginBottom: 15,
+  padding: 12,
+});
+
+const ContentArea = styled.div({
   display: 'flex',
   justifyContent: 'center',
 });
 
-const ContentAreaRendered = ({
+const EditHistory = ({
+  commitLogs,
+}) => {
+  const entries = React.useMemo(() => {
+    return commitLogs && commitLogs.map((commitLog) => {
+      return (
+        <div key={commitLog}>
+          {commitLog}
+        </div>
+      );
+    });
+  }, [commitLogs]);
+
+  return (
+    <StyledEditHistory>{entries}</StyledEditHistory>
+  );
+};
+
+const DocRendered = ({
   data,
+  extraProps,
   loading,
 }) => {
   if (!loading) {
     log('ContentAreaRendered(): data: %o', data);
     const { payload = {} } = data;
+    const { handleClickEdit } = extraProps;
 
     return (
-      <StyledContentArea>
-        <Viewer content={payload.content} />
-      </StyledContentArea>
+      <DocInner>
+        <EditHistory commitLogs={payload.commitLogs} />
+        <ButtonGroup alignRight>
+          <Button
+            onClick={handleClickEdit}
+          >
+            Edit
+          </Button>
+        </ButtonGroup>
+        <ContentArea>
+          <Viewer content={payload.content} />
+        </ContentArea>
+      </DocInner>
     );
   }
 
@@ -57,20 +98,14 @@ const DocView = () => {
 
   return (
     <StyledDocView>
-      <DocInner>
-        <ButtonGroup alignRight>
-          <Button
-            onClick={handleClickEdit}
-          >
-            Edit
-          </Button>
-        </ButtonGroup>
-        <XongkoroFetch
-          fetchFunction={fetchFunction}
-          fetchOptions={fetchOptions}
-          renderData={ContentAreaRendered}
-        />
-      </DocInner>
+      <XongkoroFetch
+        extraProps={{
+          handleClickEdit,
+        }}
+        fetchFunction={fetchFunction}
+        fetchOptions={fetchOptions}
+        renderData={DocRendered}
+      />
     </StyledDocView>
   );
 };
