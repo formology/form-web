@@ -8,6 +8,7 @@ import { hot } from 'react-hot-loader/root';
 import React from 'react';
 import styled from '@emotion/styled';
 
+import DocAddView from '@@src/universal/components/views/DocView/DocAddView';
 import DocView from '@@src/universal/components/views/DocView/DocView';
 import ErrorBoundary from '@@src/universal/components/app/Error/ErrorBoundary';
 import HomeView from '@@src/universal/components/views/HomeView/HomeView';
@@ -51,6 +52,10 @@ const Universal: React.FC<any> = () => {
           styles={customStyle}
         />
         <Switch>
+          <Route
+            component={DocAddView}
+            path="/postDoc"
+          />
           <Route
             component={DocView}
             path="/doc/:namespace/:name"

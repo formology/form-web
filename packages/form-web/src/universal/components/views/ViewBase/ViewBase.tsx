@@ -13,6 +13,7 @@ const StyledViewBase = styled.div({
 
 const StyledTop = styled.div({
   alignItems: 'center',
+  borderBottom: '1px solid #b1b1b1',
   display: 'flex',
   height: 58,
   padding: '0 30',
@@ -66,8 +67,12 @@ const ViewBase: React.FC<any> = ({
           </Link>
         </Logo>
         <Account>
-          <p>Help</p>
-          <p>Matthew</p>
+          <p>
+            <Link to="/postDoc">
+              Post
+            </Link>
+          </p>
+          <p>Elden</p>
         </Account>
       </Top>
       <Bottom>

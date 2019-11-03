@@ -8,6 +8,7 @@ const StyledEditor = styled.div({
 
 const Editor = ({
   content,
+  registerEditor,
 }) => {
   const textareaEl = React.useRef(null);
   React.useEffect(() => {
@@ -17,8 +18,9 @@ const Editor = ({
         initialValue: content,
         status: false,
       });
+      registerEditor(editor);
     }
-  }, []);
+  }, [registerEditor]);
 
   return (
     <StyledEditor>
