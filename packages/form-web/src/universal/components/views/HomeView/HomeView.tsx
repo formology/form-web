@@ -9,7 +9,6 @@ import Search from '@@src/universal/components/views/HomeView/Search';
 import ViewBase from '@@universal/components/views/ViewBase/ViewBase';
 
 const StyledHomeView = styled(ViewBase)({
-  height: '100%',
   width: '100%',
 });
 
@@ -29,10 +28,9 @@ const StyledHomeView = styled(ViewBase)({
 const StyledTrendingDocCarousel = styled.div({
   '&>div': {
     height: 400,
-    width: '25%',
   },
   display: 'flex',
-  margin: '6% 40px 20px',
+  margin: '6% 40px 0',
   overflowX: 'scroll',
   voerflowY: 'hidden',
 });
@@ -70,6 +68,11 @@ const TrendingDocCarouselRendered = ({
   );
 };
 
+const StyledBottom = styled.div({
+  marginTop: 40,
+  overflow: 'hidden',
+});
+
 const HomeView = () => {
   const fetchOptions = {
     cacheKey: 'http://localhost:5001/doc',
@@ -85,7 +88,9 @@ const HomeView = () => {
         fetchOptions={fetchOptions}
         renderData={TrendingDocCarouselRendered}
       />
-      <Search />
+      <StyledBottom>
+        <Search />
+      </StyledBottom>
     </StyledHomeView>
   );
 };

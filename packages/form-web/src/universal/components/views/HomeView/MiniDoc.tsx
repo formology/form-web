@@ -6,7 +6,9 @@ import React from 'react';
 import styled from '@emotion/styled';
 
 const StyledMiniDoc = styled.div({
-  marginRight: 5,
+  flexShrink: 0,
+  marginRight: 16,
+  width: 280,
 });
 
 const Upper = styled.div({
@@ -17,7 +19,7 @@ const Bottom = styled.div({
 });
 
 const MarkdownView = styled.div({
-  boxShadow: '1px 1px 5px 0px rgba(0,0,0,0.75)',
+  boxShadow: '1px 2px 4px 0px rgba(0,0,0,0.75)',
   height: '166%',
   padding: '15',
   transform: 'scale(0.6) translate(-33%, -33%);',

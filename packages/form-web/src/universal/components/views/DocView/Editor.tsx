@@ -18,7 +18,10 @@ const Editor = ({
         initialValue: content,
         status: false,
       });
-      registerEditor(editor);
+
+      if (registerEditor) {
+        registerEditor(editor);
+      }
     }
   }, [registerEditor]);
 

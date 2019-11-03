@@ -50,7 +50,7 @@ const Account = styled.div({
 });
 
 const Bottom = styled.div({
-  minHeight: 'calc(100% - 50px)',
+  minHeight: 'calc(100% - 60px)',
 });
 
 const ViewBase: React.FC<any> = ({
