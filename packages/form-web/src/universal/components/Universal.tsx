@@ -53,7 +53,7 @@ const Universal: React.FC<any> = () => {
         <Switch>
           <Route
             component={DocView}
-            path="/:namespace/:docName"
+            path="/doc/:namespace/:name"
           />
           <Route component={HomeView} />
         </Switch>

@@ -1,7 +1,11 @@
+import axios from 'axios';
 import React from 'react';
 import styled from '@emotion/styled';
+import { useParams } from 'react-router-dom';
+import { XongkoroFetch } from 'xongkoro';
 
 import Editor from './Editor';
+import { log } from '@@universal/modules/Logger';
 import ViewBase from '@@universal/components/views/ViewBase/ViewBase';
 import Viewer from './Viewer';
 
@@ -65,11 +69,44 @@ const ContentArea = ({
   );
 };
 
+const ContentAreaRendered = ({
+  data,
+  extraProps,
+  loading,
+}) => {
+  if (!loading) {
+    log('ContentAreaRendered(): data: %o', data);
+    const { payload = {} } = data;
+    const { isViewer } = extraProps;
+
+    return (
+      <ContentArea
+        content={payload.content || ''}
+        isViewer={isViewer}
+      />
+    );
+  }
+
+  return (
+    <div>loading...</div>
+  );
+};
+
 const DocView = () => {
+  const params = useParams();
   const [isViewer, setIsViewer] = React.useState(true);
   const handleClickEdit = React.useCallback(() => {
     setIsViewer(!isViewer);
   }, [isViewer]);
+  const { name, namespace } = params;
+
+  const fetchOptions = {
+    cacheKey: `http://localhost:5001/doc/${params.namespace}/${params.name}`,
+    fetchParam: {
+      name,
+      namespace,
+    },
+  };
 
   return (
     <StyledDocView>
@@ -81,6 +118,14 @@ const DocView = () => {
             Edit
           </Button>
         </ButtonGroup>
+        <XongkoroFetch
+          extraProps={{
+            isViewer,
+          }}
+          fetchFunction={fetchFunction}
+          fetchOptions={fetchOptions}
+          renderData={ContentAreaRendered}
+        />
         <ContentArea
           content={dummyPage}
           isViewer={isViewer}
@@ -91,3 +136,15 @@ const DocView = () => {
 };
 
 export default DocView;
+
+function fetchFunction({
+  name,
+  namespace,
+}) {
+  return async () => {
+    log('fetchFunction(): executing with name: %s, namesapce: %s', name, namespace);
+
+    const { data } = await axios.post(`http://localhost:5001/doc/${namespace}/${name}`);
+    return data;
+  };
+}

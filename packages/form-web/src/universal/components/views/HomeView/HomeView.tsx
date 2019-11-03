@@ -34,7 +34,7 @@ const StyledTrendingDocCarousel = styled.div({
   display: 'flex',
   margin: '6% 40px 20px',
   overflowX: 'scroll',
-  overflowY: 'hidden',
+  voerflowY: 'hidden',
 });
 
 const TrendingDocCarouselRendered = ({
@@ -72,7 +72,7 @@ const TrendingDocCarouselRendered = ({
 
 const HomeView = () => {
   const fetchOptions = {
-    cacheKey: 'http://localhost:5001/documents',
+    cacheKey: 'http://localhost:5001/doc',
     fetchParam: {
       power: 1,
     },
@@ -96,7 +96,7 @@ function fetchFunction(param) {
   return async () => {
     log('fetchFunction(): executing with fetchParam: %j', param);
 
-    const { data } = await axios.post('http://localhost:5001/documents');
+    const { data } = await axios.post('http://localhost:5001/doc');
     return data;
   };
 }

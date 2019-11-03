@@ -42,7 +42,7 @@ const MiniDoc = ({
         <p>{address}</p>
       </Upper>
       <Bottom>
-        <Link to={`doc/${address}`}>
+        <Link to={`/doc/${address}`}>
           <MarkdownView dangerouslySetInnerHTML={html} />
         </Link>
       </Bottom>
