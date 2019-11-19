@@ -13,13 +13,34 @@ const StyledHomeView = styled(ViewBase)({
 
 const StyledTrendingDocCarousel = styled.div({
   '&>div': {
-    height: 400,
+    height: 60,
   },
   display: 'flex',
+  flexGrow: 1,
   justifyContent: 'center',
-  margin: '6% 600px 0',
   overflowX: 'scroll',
   overflowY: 'hidden',
+  paddingTop: '75px',
+});
+
+const StyledLeftHomeBar = styled.div({
+  lineHeight: '200%',
+  padding: '44px 0 0 36px',
+  width: 200,
+});
+
+const LeftHomeBar = () => {
+  return (
+    <StyledLeftHomeBar>
+      <div>Home</div>
+      <div>Documents</div>
+    </StyledLeftHomeBar>
+  );
+};
+
+const StyledHorizontalBar = styled.div({
+  display: 'flex',
+  minHeight: 'calc(100% - 58px)',
 });
 
 const TrendingDocCarouselRendered = ({
@@ -66,11 +87,14 @@ const HomeView = () => {
 
   return (
     <StyledHomeView>
-      <XongkoroFetch
-        fetchFunction={fetchFunction}
-        fetchOptions={fetchOptions}
-        renderData={TrendingDocCarouselRendered}
-      />
+      <StyledHorizontalBar>
+        <LeftHomeBar />
+        <XongkoroFetch
+          fetchFunction={fetchFunction}
+          fetchOptions={fetchOptions}
+          renderData={TrendingDocCarouselRendered}
+        />
+      </StyledHorizontalBar>
     </StyledHomeView>
   );
 };
