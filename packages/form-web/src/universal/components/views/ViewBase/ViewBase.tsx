@@ -3,6 +3,7 @@ import {
 } from 'react-router-dom';
 import React from 'react';
 import styled from '@emotion/styled';
+import Search from '@@src/universal/components/views/HomeView/Search';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faProjectDiagram } from '@fortawesome/free-solid-svg-icons';
@@ -16,7 +17,14 @@ const StyledTop = styled.div({
   borderBottom: '1px solid #b1b1b1',
   display: 'flex',
   height: 58,
+  justifyContent: 'space-between',
   padding: '0 30',
+});
+
+const SearchBar = styled.div({
+  alignItems: 'center',
+  justifyContent: 'center',
+  overflow: 'hidden',
 });
 
 const Top = ({
@@ -46,7 +54,6 @@ const Account = styled.div({
     marginRight: 15,
   },
   display: 'flex',
-  marginLeft: 'auto',
 });
 
 const Bottom = styled.div({
@@ -65,13 +72,16 @@ const ViewBase: React.FC<any> = ({
             FORM
           </Link>
         </Logo>
+        <SearchBar>
+          <Search />
+        </SearchBar>
         <Account>
           <p>
             <Link to="/docs/post">
               Post
             </Link>
           </p>
-          <p>Elden</p>
+          <p>User Name</p>
         </Account>
       </Top>
       <Bottom>

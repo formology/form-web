@@ -5,7 +5,6 @@ import { XongkoroFetch } from 'xongkoro';
 
 import { log } from '@@universal/modules/Logger';
 import MiniDoc from './MiniDoc';
-import Search from '@@src/universal/components/views/HomeView/Search';
 import ViewBase from '@@universal/components/views/ViewBase/ViewBase';
 
 const StyledHomeView = styled(ViewBase)({
@@ -17,7 +16,8 @@ const StyledTrendingDocCarousel = styled.div({
     height: 400,
   },
   display: 'flex',
-  margin: '6% 40px 0',
+  justifyContent: 'center',
+  margin: '6% 600px 0',
   overflowX: 'scroll',
   overflowY: 'hidden',
 });
@@ -55,10 +55,6 @@ const TrendingDocCarouselRendered = ({
   );
 };
 
-const StyledBottom = styled.div({
-  marginTop: 40,
-  overflow: 'hidden',
-});
 
 const HomeView = () => {
   const fetchOptions = {
@@ -75,9 +71,6 @@ const HomeView = () => {
         fetchOptions={fetchOptions}
         renderData={TrendingDocCarouselRendered}
       />
-      <StyledBottom>
-        <Search />
-      </StyledBottom>
     </StyledHomeView>
   );
 };
