@@ -1,12 +1,12 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faProjectDiagram } from '@fortawesome/free-solid-svg-icons';
 import {
   Link,
 } from 'react-router-dom';
 import React from 'react';
 import styled from '@emotion/styled';
-import Search from '@@src/universal/components/views/HomeView/Search';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faProjectDiagram } from '@fortawesome/free-solid-svg-icons';
+import Search from '@@src/universal/components/views/DocsView/Search';
 
 const StyledViewBase = styled.div({
   minHeight: '100%',
@@ -24,7 +24,7 @@ const StyledTop = styled.div({
 const SearchBar = styled.div({
   alignItems: 'center',
   justifyContent: 'center',
-  overflow: 'hidden',
+  overflow: ' idden',
 });
 
 const Top = ({
@@ -57,6 +57,8 @@ const Account = styled.div({
 });
 
 const Bottom = styled.div({
+  display: 'flex',
+  minHeight: 'calc(100% - 58px)',
 });
 
 const ViewBase: React.FC<any> = ({
