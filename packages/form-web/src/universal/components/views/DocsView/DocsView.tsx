@@ -5,10 +5,24 @@ import { useHistory } from 'react-router';
 import { XongkoroFetch } from 'xongkoro';
 
 import { log } from '@@universal/modules/Logger';
+import MiniDoc from './MiniDoc';
 import ViewBase from '@@universal/components/views/ViewBase/ViewBase';
 
-const StyledTopBar = styled(ViewBase)({
+const StyledDocsView = styled(ViewBase)({
   width: '100%',
+});
+
+const StyledTrendingDocCarousel = styled.div({
+  '&>div': {
+    height: 60,
+  },
+  display: 'flex',
+  flexGrow: 1,
+  justifyContent: 'center',
+  marginRight: '250px',
+  overflowX: 'scroll',
+  overflowY: 'hidden',
+  paddingTop: '75px',
 });
 
 const StyledLeftHomeBar = styled.div({
@@ -55,84 +69,77 @@ const LeftBar = ({
   );
 };
 
-const MiddleBox = styled.div({
-  border: '0.5px solid gray',
+const StyledHorizontalBar = styled.div({
   display: 'flex',
-  height: '480px',
-  justifyContent: 'center',
-  marginLeft: '550px',
-  marginRight: '550px',
-  marginTop: '5px',
+  minHeight: 'calc(100% - 58px)',
 });
 
-const EmojiBox = styled.div({
-  border: '0.2px solid gray',
-});
-
-const BoxEntry = styled.div({
-  border: '0.2px solid gray',
-  display: 'flex',
-  width: '400px',
-});
-
-const SingleNewRow = styled.div({
-  display: 'flex',
-  height: '60px',
-  justifyContent: 'space-evenly',
-  marginTop: '10px',
-  width: '500px',
-});
-
-const MiddleContent = ({
-  data = `Elden's`,
+const TrendingDocCarouselRendered = ({
+  data,
+  loading,
 }) => {
+  if (!loading) {
+    log('TrendingDocCarouselRendered(): data: %o', data);
+    const { payload } = data;
+    const { documents = [] } = payload;
+    const entries = React.useMemo(() => {
+      return documents.map && documents.map((doc) => {
+        const address = `${doc.namespace}/${doc.name}`;
+        return (
+          <MiniDoc
+            address={address}
+            doc={doc}
+            key={address}
+          />
+        );
+      });
+    }, [documents]);
+
+    return (
+      <StyledTrendingDocCarousel>
+        {entries}
+      </StyledTrendingDocCarousel>
+    );
+  }
+
   return (
-    <MiddleBox>
-      <SingleNewRow>
-        <EmojiBox>
-          Avatar
-        </EmojiBox>
-        <BoxEntry>
-          <div>
-            {data}
-            <span>Entry</span>
-          </div>
-        </BoxEntry>
-      </SingleNewRow>
-    </MiddleBox>
+    <div>loading...</div>
   );
 };
 
-const HomeView = () => {
+
+const DocsView = () => {
   const fetchOptions = {
-    cacheKey: 'http://localhost:5001',
+    cacheKey: 'http://localhost:5001/docs',
     fetchParam: {
       power: 1,
     },
   };
 
   const history = useHistory();
+
   const handleClickEntry = React.useCallback((e) => {
     const { url } = e.target.dataset;
     history.push(url);
   }, []);
 
   return (
-    <StyledTopBar>
-      <LeftBar
-        handleClickEntry={handleClickEntry}
-      />
-      <XongkoroFetch
-        fetchFunction={fetchFunction}
-        fetchOptions={fetchOptions}
-        renderData={MiddleContent}
-        //renderData={() => (<div>123</div>)}
-      />
-    </StyledTopBar>
+    <StyledDocsView>
+      <StyledHorizontalBar>
+        <LeftBar
+          handleClickEntry={handleClickEntry}
+        />
+        <XongkoroFetch
+          fetchFunction={fetchFunction}
+          fetchOptions={fetchOptions}
+          renderData={TrendingDocCarouselRendered}
+        />
+      </StyledHorizontalBar>
+    </StyledDocsView>
   );
 };
 
-export default HomeView;
+export default DocsView;
 
 function fetchFunction(param) {
   return async () => {

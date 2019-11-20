@@ -10,6 +10,7 @@ import styled from '@emotion/styled';
 
 import DocAddView from '@@src/universal/components/views/DocView/DocAddView';
 import DocEditView from '@@src/universal/components/views/DocView/DocEditView';
+import DocsView from '@@src/universal/components/views/DocsView/DocsView';
 import DocView from '@@src/universal/components/views/DocView/DocView';
 import ErrorBoundary from '@@src/universal/components/app/Error/ErrorBoundary';
 import HomeView from '@@src/universal/components/views/HomeView/HomeView';
@@ -53,6 +54,11 @@ const Universal: React.FC<any> = () => {
           styles={customStyle}
         />
         <Switch>
+          <Route
+            component={DocsView}
+            exact
+            path="/docs/"
+          />
           <Route
             component={DocAddView}
             path="/docs/post"
