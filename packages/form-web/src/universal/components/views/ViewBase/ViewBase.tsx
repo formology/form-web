@@ -1,5 +1,3 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faProjectDiagram } from '@fortawesome/free-solid-svg-icons';
 import {
   Link,
 } from 'react-router-dom';
@@ -70,7 +68,6 @@ const ViewBase: React.FC<any> = ({
       <Top>
         <Logo>
           <Link to="/">
-            <FontAwesomeIcon icon={faProjectDiagram} />
             FORM
           </Link>
         </Logo>
@@ -83,7 +80,7 @@ const ViewBase: React.FC<any> = ({
               Post
             </Link>
           </p>
-          <p>User Name</p>
+          <p>Elden</p>
         </Account>
       </Top>
       <Bottom>

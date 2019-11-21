@@ -2,10 +2,8 @@ import React from 'react';
 import styled from '@emotion/styled';
 
 const StyledNews = styled.div({
-  border: '0.5px solid gray',
   display: 'flex',
-  height: '480px',
-  justifyContent: 'center',
+  flexDirection: 'column',
   paddingTop: 55,
 });
 
@@ -15,15 +13,14 @@ const Avatar = styled.img({
 });
 
 const Body = styled.div({
-  width: '400px',
+  paddingLeft: 12,
+  width: '600px',
 });
 
-const SingleNewRow = styled.div({
+const StyledNewsEntry = styled.div({
+  alignItems: 'center',
   display: 'flex',
-  height: '60px',
-  justifyContent: 'space-evenly',
-  marginTop: '10px',
-  width: '500px',
+  marginBottom: '18px',
 });
 
 const Username = styled.span({
@@ -36,6 +33,12 @@ const TargetDoc = styled.span({
   marginLeft: 5,
 });
 
+const Time = styled.div({
+  color: 'gray',
+  fontSize: '0.9em',
+  marginTop: 6,
+});
+
 const Title = styled.div({});
 
 const Change = styled.div({
@@ -44,109 +47,133 @@ const Change = styled.div({
 
 const Diff = styled.div({
   '& .addition': {
-    background: 'green',
+    background: '#8fef8fb8',
   },
   '& .removal': {
-    backgroundColor: 'red',
+    backgroundColor: '#ef7d7deb',
   },
   '&>span': {
     whiteSpace: 'pre',
   },
-  fontFamily: `'Roboto Mono', monospace`,
+  border: '1px solid gray',
+  borderRadius: 3,
+  fontFamily: `'Ubuntu Mono', monospace`,
+  marginTop: 4,
+  padding: 3,
 });
+
+const NewsEntry = ({
+  newsEntry,
+}) => {
+  const { diff } = newsEntry;
+  const diffMap: any = [];
+  let chunk: any = [];
+  let chunkType = 'plain';
+  let chunkIdx = 0;
+  for (let idx = 0; idx < diff.length; idx += 1) {
+    const c = diff[idx];
+    if (c === '[') {
+      diffMap.push({
+        chunk,
+        chunkIdx: chunkIdx += 1,
+        chunkType,
+      });
+      chunk = [];
+      chunkType = 'removal';
+    } else if (c === ']') {
+      diffMap.push({
+        chunk,
+        chunkIdx: chunkIdx += 1,
+        chunkType,
+      });
+      chunkType = 'plain';
+      chunk = [];
+    } else if (c === '{') {
+      diffMap.push({
+        chunk,
+        chunkIdx: chunkIdx += 1,
+        chunkType,
+      });
+      chunk = [];
+      chunkType = 'addition';
+    } else if (c === '}') {
+      diffMap.push({
+        chunk,
+        chunkIdx: chunkIdx += 1,
+        chunkType,
+      });
+      chunk = [];
+      chunkType = 'plain';
+    } else if (
+      !(chunkType === 'removal' && c === '-')
+      && !(chunkType === 'addition' && c === '+')
+    ) {
+      chunk.push(c);
+    }
+    if (idx === diff.length - 1) {
+      diffMap.push({
+        chunk,
+        chunkIdx: chunkIdx += 1,
+        chunkType,
+      });
+    }
+  }
+
+  const _diff = diffMap.map((df) => {
+    return (
+      <span
+        className={df.chunkType}
+        key={df.chunkIdx}
+      >
+        {df.chunk.join('')}
+      </span>
+    );
+  });
+
+  const date = new Date(newsEntry.timestamp);
+  const _date = `${date.getFullYear()}/${date.getMonth()}/${date.getDate()} ${date.getHours()}:${date.getMinutes()}`;
+
+  return (
+    <StyledNewsEntry>
+      <Avatar src={newsEntry.avatarUrl} />
+      <Body>
+        <Title>
+          <Username>{newsEntry.username}</Username>
+          <span>proposed to</span>
+          <TargetDoc>{`${newsEntry.targetDocNamespace}/${newsEntry.targetDocName}`}</TargetDoc>
+        </Title>
+        <Change>
+          <div>{newsEntry.commitMsg}</div>
+          <Diff>
+            {_diff}
+          </Diff>
+        </Change>
+        <Time>
+          {_date}
+        </Time>
+      </Body>
+    </StyledNewsEntry>
+  );
+};
 
 const News = ({
   data,
   loading,
 }) => {
   if (!loading) {
-    return data.map((d) => {
-      const { diff } = d;
-      const diffMap: any = [];
-      let chunk: any = [];
-      let chunkType = 'plain';
-      let chunkIdx = 0;
-      for (let idx = 0; idx < diff.length; idx += 1) {
-        const c = diff[idx];
-        if (c === '[') {
-          diffMap.push({
-            chunk,
-            chunkIdx: chunkIdx += 1,
-            chunkType,
-          });
-          chunk = [];
-          chunkType = 'removal';
-        } else if (c === ']') {
-          diffMap.push({
-            chunk,
-            chunkIdx: chunkIdx += 1,
-            chunkType,
-          });
-          chunkType = 'plain';
-          chunk = [];
-        } else if (c === '{') {
-          diffMap.push({
-            chunk,
-            chunkIdx: chunkIdx += 1,
-            chunkType,
-          });
-          chunk = [];
-          chunkType = 'addition';
-        } else if (c === '}') {
-          diffMap.push({
-            chunk,
-            chunkIdx: chunkIdx += 1,
-            chunkType,
-          });
-          chunk = [];
-          chunkType = 'plain';
-        } else if (
-          !(chunkType === 'removal' && c === '-')
-          && !(chunkType === 'addition' && c === '+')
-        ) {
-          chunk.push(c);
-        }
-        if (idx === diff.length - 1) {
-          diffMap.push({
-            chunk,
-            chunkIdx: chunkIdx += 1,
-            chunkType,
-          });
-        }
-      }
-
-      const _diff = diffMap.map((df) => {
-        return (
-          <span
-            className={df.chunkType}
-            key={df.chunkIdx}
-          >
-            {df.chunk.join('')}
-          </span>
-        );
-      });
-
+    const result = data.map((d) => {
       return (
-        <StyledNews key={d.username}>
-          <SingleNewRow>
-            <Avatar src={d.avatarUrl} />
-            <Body>
-              <Title>
-                <Username>{d.username}</Username>
-                <span>proposed to</span>
-                <TargetDoc>{`${d.targetDocNamespace}/${d.targetDocName}`}</TargetDoc>
-              </Title>
-              <Change>
-                <div>{d.commitMsg}</div>
-                <Diff>
-                  {_diff}
-                </Diff>
-              </Change>
-            </Body>
-          </SingleNewRow>
-        </StyledNews>
+        <NewsEntry
+          key={d.username}
+          newsEntry={d}
+        />
       );
     });
+    return (
+      <StyledNews>
+        {result}
+      </StyledNews>
+    );
   }
 
   return (

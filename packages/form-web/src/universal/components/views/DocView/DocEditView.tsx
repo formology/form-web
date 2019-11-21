@@ -14,6 +14,12 @@ import ViewBase from '@@universal/components/views/ViewBase/ViewBase';
 const StyledDocView = styled(ViewBase)({
 });
 
+const DocContainer = styled.div({
+  display: 'flex',
+  flexGrow: 1,
+  justifyContent: 'center',
+});
+
 const StyledContentArea = styled.div({
   display: 'flex',
   justifyContent: 'center',
@@ -93,35 +99,37 @@ const DocEditView = () => {
 
   return (
     <StyledDocView>
-      <DocInner>
-        <ButtonGroup alignRight>
-          <Button
-            onClick={handleClickCancel}
-          >
-            Cancel
-          </Button>
-        </ButtonGroup>
-        <XongkoroFetch
-          extraProps={{
-            registerEditor,
-          }}
-          fetchFunction={fetchFunction}
-          fetchOptions={docGetFetchOptions}
-          renderData={ContentAreaRendered}
-        />
-        <div>
-          <Input
-            placeholder="Type commit message... (e.g. Add a category)"
-            ref={commitMsgInputRef}
-            type="text"
+      <DocContainer>
+        <DocInner>
+          <ButtonGroup alignRight>
+            <Button
+              onClick={handleClickCancel}
+            >
+              Cancel
+            </Button>
+          </ButtonGroup>
+          <XongkoroFetch
+            extraProps={{
+              registerEditor,
+            }}
+            fetchFunction={fetchFunction}
+            fetchOptions={docGetFetchOptions}
+            renderData={ContentAreaRendered}
           />
-        </div>
-        <ButtonGroup>
-          <Button onClick={handleClickProposeChange}>
-            Propose Change
-          </Button>
-        </ButtonGroup>
-      </DocInner>
+          <div>
+            <Input
+              placeholder="Type commit message... (e.g. Add a category)"
+              ref={commitMsgInputRef}
+              type="text"
+            />
+          </div>
+          <ButtonGroup>
+            <Button onClick={handleClickProposeChange}>
+              Propose Change
+            </Button>
+          </ButtonGroup>
+        </DocInner>
+      </DocContainer>
     </StyledDocView>
   );
 };

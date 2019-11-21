@@ -26,6 +26,12 @@ const ContentArea = styled.div({
   justifyContent: 'center',
 });
 
+const DocContainer = styled.div({
+  display: 'flex',
+  flexGrow: 1,
+  justifyContent: 'center',
+});
+
 const DocAddView = () => {
   const history = useHistory();
   const editorRef = React.useRef<any>(null);
@@ -67,28 +73,30 @@ const DocAddView = () => {
 
   return (
     <ViewBase>
-      <Toast label={toast} />
-      <DocInner>
-        <ButtonGroup alignRight>
-          <Button
-            onClick={handleClickPost}
-            type="button"
-          >
-            Post
-          </Button>
-        </ButtonGroup>
-        <ContentArea>
-          <input
-            placeholder="Document Name"
-            ref={nameRef}
-            type="text"
-          />
-          <Editor
-            content=""
-            registerEditor={registerEditor}
-          />
-        </ContentArea>
-      </DocInner>
+      <DocContainer>
+        <Toast label={toast} />
+        <DocInner>
+          <ButtonGroup alignRight>
+            <Button
+              onClick={handleClickPost}
+              type="button"
+            >
+              Post
+            </Button>
+          </ButtonGroup>
+          <ContentArea>
+            <input
+              placeholder="Document Name"
+              ref={nameRef}
+              type="text"
+            />
+            <Editor
+              content=""
+              registerEditor={registerEditor}
+            />
+          </ContentArea>
+        </DocInner>
+      </DocContainer>
     </ViewBase>
   );
 };

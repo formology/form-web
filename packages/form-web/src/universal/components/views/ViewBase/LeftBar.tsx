@@ -2,13 +2,16 @@ import React from 'react';
 import styled from '@emotion/styled';
 
 const StyledLeftBar = styled.div({
-  fontFamily: 'bookman',
-  fontSize: '26',
-  padding: '55px 0 0 42px',
+  fontSize: '1.1em',
+  padding: '55px 0 0 30px',
   width: 200,
 });
 
 const StyledLeftBarEntry = styled.div({
+  '&:hover': {
+    fontWeight: 600,
+  },
+  cursor: 'pointer',
   paddingBottom: 5,
 });
 

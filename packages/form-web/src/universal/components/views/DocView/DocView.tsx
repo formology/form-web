@@ -14,6 +14,12 @@ import Viewer from './Viewer';
 const StyledDocView = styled(ViewBase)({
 });
 
+const DocContainer = styled.div({
+  display: 'flex',
+  flexGrow: 1,
+  justifyContent: 'center',
+});
+
 const StyledEditHistory = styled.div({
   '&>div': {
     marginBottom: 7,
@@ -98,14 +104,16 @@ const DocView = () => {
 
   return (
     <StyledDocView>
-      <XongkoroFetch
-        extraProps={{
-          handleClickEdit,
-        }}
-        fetchFunction={fetchFunction}
-        fetchOptions={fetchOptions}
-        renderData={DocRendered}
-      />
+      <DocContainer>
+        <XongkoroFetch
+          extraProps={{
+            handleClickEdit,
+          }}
+          fetchFunction={fetchFunction}
+          fetchOptions={fetchOptions}
+          renderData={DocRendered}
+        />
+      </DocContainer>
     </StyledDocView>
   );
 };
